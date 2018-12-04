@@ -3,6 +3,8 @@ import struct
 import textwrap
 import pcap
 
+# Currently not working on mac (all bsd) based on different way of packet sniffing.
+# Work in progress.
 
 def main():
     """
