@@ -15,3 +15,13 @@ def ethernet_frame(packet):
     """
     dest_mac, src_mac, proto = struct.unpack('! 6s 6s H', packet[:14])
     return get_mac_addr(dest_mac), get_mac_addr(src_mac), socket.htons(proto), packet[14:]
+
+
+def get_mac_addr(bytes):
+    """
+    Properly format a mac address.
+    Expected final format: AA:BB:CC:DD:EE:FF
+    """
+    bytes_str = map('{:02x}'.format, bytes)
+    mac_addr = ':'.join(bytes_str).upper()
+    return mac_addr
