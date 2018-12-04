@@ -1,6 +1,22 @@
 import socket
 import struct
 import textwrap
+import pcap
+
+
+def main():
+    """
+    Wait and listen for packets to come in.
+    """
+    connection = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.htons(0x03))
+
+    # Start the main loop.
+    while True:
+        # 65536 is the biggest buffer size that can be used.
+        raw_data, addr = connection.recvfrom(65536)
+        dest_mac, src_mac, eth_proto, data = ethernet_frame(raw_data)
+        print('\nEthernet Frame:')
+        print('Destination: {}, Source: {}, Protocol: {}'.format(dest_mac, src_mac, eth_proto))
 
 
 def ethernet_frame(packet):
@@ -25,3 +41,7 @@ def get_mac_addr(bytes):
     bytes_str = map('{:02x}'.format, bytes)
     mac_addr = ':'.join(bytes_str).upper()
     return mac_addr
+
+
+if __name__ == '__main__':
+    main()
